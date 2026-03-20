@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 // ===== CONFIG =====
-const API_BASE = "const API_BASE = "https://your-backend-app.azurewebsites.net/api/employees";";
+const API_BASE = "const API_BASE = "const API_BASE = "https://promotionbackends-hnhxacbphzh8hjb3.southeastasia-01.azurewebsites.net/api/employees";
 
 
 function App() {
