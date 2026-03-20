@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 // ===== CONFIG =====
-const API_BASE = "const API_BASE = "const API_BASE = "https://promotionbackends-hnhxacbphzh8hjb3.southeastasia-01.azurewebsites.net/api/employees";
-
+const API_BASE = "https://promotionbackends-hnhxacbphzh8hjb3.southeastasia-01.azurewebsites.net/api/employees";
 
 function App() {
   const [employees, setEmployees] = useState([]);
@@ -33,7 +32,7 @@ function App() {
       const res = await axios.get(API_BASE);
       setEmployees(res.data);
     } catch (e) {
-      console.error(e);
+      console.error("Fetch error:", e);
     }
   };
 
@@ -44,23 +43,35 @@ function App() {
 
   // ===== CREATE =====
   const createEmployee = async () => {
-    await axios.post(API_BASE, form);
-    fetchEmployees();
-    resetForm();
+    try {
+      await axios.post(API_BASE, form);
+      fetchEmployees();
+      resetForm();
+    } catch (e) {
+      console.error("Create error:", e);
+    }
   };
 
   // ===== UPDATE =====
   const updateEmployee = async () => {
-    await axios.put(`${API_BASE}/${form.id}`, form);
-    fetchEmployees();
-    resetForm();
+    try {
+      await axios.put(`${API_BASE}/${form.id}`, form);
+      fetchEmployees();
+      resetForm();
+    } catch (e) {
+      console.error("Update error:", e);
+    }
   };
 
   // ===== DELETE =====
   const deleteEmployee = async (id) => {
-    if (!window.confirm("Delete this record?") ) return;
-    await axios.delete(`${API_BASE}/${id}`);
-    fetchEmployees();
+    if (!window.confirm("Delete this record?")) return;
+    try {
+      await axios.delete(`${API_BASE}/${id}`);
+      fetchEmployees();
+    } catch (e) {
+      console.error("Delete error:", e);
+    }
   };
 
   const editEmployee = (emp) => {
@@ -89,7 +100,7 @@ function App() {
     <div style={{ padding: 20 }}>
       <h1>Promotion & Transfer Management</h1>
 
-      {/* ===== FORM ===== */}
+      {/* FORM */}
       <div style={{ border: "1px solid #ccc", padding: 15, marginBottom: 30 }}>
         <h3>{isEditing ? "Update Record" : "Add Record"}</h3>
 
@@ -112,7 +123,7 @@ function App() {
         {isEditing && <button onClick={resetForm}>Cancel</button>}
       </div>
 
-      {/* ===== TABLE ===== */}
+      {/* TABLE */}
       <table border="1" width="100%">
         <thead>
           <tr>
