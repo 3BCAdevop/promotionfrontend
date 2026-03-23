@@ -63,14 +63,32 @@ function App() {
     }
   };
 
-  // ===== DELETE =====
+  // ===== DELETE WITH PASSWORD =====
   const deleteEmployee = async (id) => {
-    if (!window.confirm("Delete this record?")) return;
+    const password = prompt("Enter password to delete:");
+
+    const ADMIN_PASSWORD = "admin123"; // 🔐 change password here
+
+    if (!password) {
+      alert("Delete cancelled!");
+      return;
+    }
+
+    if (password !== ADMIN_PASSWORD) {
+      alert("Wrong password! Access denied ❌");
+      return;
+    }
+
+    const confirmDelete = window.confirm("Are you sure you want to delete?");
+    if (!confirmDelete) return;
+
     try {
       await axios.delete(`${API_BASE}/${id}`);
+      alert("Record deleted successfully ✅");
       fetchEmployees();
     } catch (e) {
       console.error("Delete error:", e);
+      alert("Error deleting record ❌");
     }
   };
 
